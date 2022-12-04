@@ -169,7 +169,7 @@ export default function TaxCalculator() {
     return (
         <div className="container mx-auto">
             <div className="h-screen flex flex-col justify-between">
-                <div className="hero mt-12">
+                <div className="hero mt-6">
                     <div className="hero-content text-center">
                         <div className="max-w-md space-y-16">
                             <h1 className="text-5xl font-bold">Gelir Vergisi Hesaplama</h1>
