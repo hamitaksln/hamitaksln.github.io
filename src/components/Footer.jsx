@@ -6,7 +6,7 @@ const GithubIcon = (props) => (
 
 export const Footer = () => {
     return (
-        <div className="mx-auto mb-12 sm:mb-4">
+        <div className="mx-auto mb-2">
             <div className="flex gap-2 items-center">
                 <div className="label-text text-neutral-content">
                     Abdulhamit Akaslan - hamtaksln@gmail.com
