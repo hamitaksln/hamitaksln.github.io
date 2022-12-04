@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    overflow-y: scroll;
+}
+
+body {
+    @apply antialiased;
+    --removed-scroll-width: 0px !important;
+    overflow-x: hidden;
+}
