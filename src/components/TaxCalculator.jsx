@@ -153,10 +153,12 @@ const TaxForm = () => {
                     placeholder="Yıllık kazanç"
                     label="Yıllık kazancınız"
                 />
-                <div className="flex justify-between text-xl">
-                    <span>{"Ödemeniz gereken vergi miktarı:"}</span>
-                    <span>{taxDisplay}</span>
-                </div>
+                {tax ? (
+                    <div className="flex justify-between text-xl">
+                        <span>{"Toplam vergi miktarı:"}</span>
+                        <span>{taxDisplay}</span>
+                    </div>
+                ) : null}
                 <button className="btn btn-primary">Hesapla</button>
             </form>
         </FormProvider>
