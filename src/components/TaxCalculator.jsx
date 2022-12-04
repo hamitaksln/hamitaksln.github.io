@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useForm, useFormContext, FormProvider } from "react-hook-form"
+import { Footer } from "./Footer"
 
 const INCOME_TYPES = {
     wage: "wage",
@@ -174,11 +175,7 @@ export default function TaxCalculator() {
                         </div>
                     </div>
                 </div>
-                <div className="max-w-md mx-auto">
-                    <div className="label-text text-neutral-content">
-                        Abdulhamit Akaslan - hamtaksln@gmail.com
-                    </div>
-                </div>
+                <Footer />
             </div>
         </div>
     )

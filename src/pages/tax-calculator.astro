@@ -1,23 +1,8 @@
 ---
-// Component Imports
 import TaxCalculator from "../components/TaxCalculator"
-import "../styles/global.css"
-
-// Full Astro Component Syntax:
-// https://docs.astro.build/core-concepts/astro-components/
+import MainLayout from "../layout/mainLayout.astro"
 ---
 
-<html data-theme="halloween" lang="en">
-    <head>
-        <title>Turkey Tax Calculator</title>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width" />
-        <meta name="generator" content={Astro.generator} />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    </head>
-    <body>
-        <main>
-            <TaxCalculator client:visible />
-        </main>
-    </body>
-</html>
+<MainLayout title="Turkey Tax Calculator">
+    <TaxCalculator client:visible />
+</MainLayout>
