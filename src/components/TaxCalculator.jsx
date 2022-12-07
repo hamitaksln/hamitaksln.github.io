@@ -1,70 +1,72 @@
-import { useState } from "react"
-import { useForm, useFormContext, FormProvider } from "react-hook-form"
+import { useLayoutEffect, useState } from "react"
+import { FormProvider, useForm, useFormContext } from "react-hook-form"
+import { DIGIT_REGEX, TAX_BRACKETS } from "../constants"
+import { useFontFaceObserver } from "../hooks/useIsFontLoaded"
+import { getTextWidth } from "../utilities"
 import { Footer } from "./Footer"
+import { TaxSummary } from "./TaxSummary"
 
-const INCOME_TYPES = {
-    wage: "wage",
-    noneWage: "noneWage"
-}
-
-const TAX_BRACKETS = {
-    [INCOME_TYPES.wage]: [
-        { baseAmount: 32_000, partialAmount: 0, partialTax: 0, rate: 0.15 },
-        { baseAmount: 70_000, partialAmount: 32_000, partialTax: 4_800, rate: 0.2 },
-        { baseAmount: 250_000, partialAmount: 70_000, partialTax: 12_400, rate: 0.27 },
-        { baseAmount: 880_000, partialAmount: 250_000, partialTax: 61_000, rate: 0.35 },
-        { baseAmount: 880_000 ** 10, partialAmount: 880_000, partialTax: 281_500, rate: 0.4 }
-    ],
-    [INCOME_TYPES.noneWage]: [
-        { baseAmount: 32_000, partialAmount: 0, partialTax: 0, rate: 0.15 },
-        { baseAmount: 70_000, partialAmount: 32_000, partialTax: 4_800, rate: 0.2 },
-        { baseAmount: 170_000, partialAmount: 70_000, partialTax: 12_400, rate: 0.27 },
-        { baseAmount: 880_000, partialAmount: 170_000, partialTax: 39_400, rate: 0.35 },
-        { baseAmount: 880_000 ** 10, partialAmount: 880_000, partialTax: 287_900, rate: 0.4 }
-    ]
-}
-
-const digitRegex = /^[\d]+$/
-
-const NumberInput = (props) => {
+const MoneyInput = (props) => {
     const { setValue, watch } = useFormContext()
+
     const currentValue = watch(props.id)
+    const [inputTextWidth, setInputTextWidth] = useState(0)
+
+    const isFontLoaded = useFontFaceObserver([{ family: "Inter" }])
 
     const handleOnChange = (e, i) => {
-        if (e.nativeEvent.data && !digitRegex.test(e.nativeEvent.data)) return
+        if (e.nativeEvent.data && !DIGIT_REGEX.test(e.nativeEvent.data)) return
+        if (e.target.value.length > 6) return
 
         setValue(props.id, parseFloat(e.target.value) || 0, { valueAsNumber: true })
     }
+
+    useLayoutEffect(() => {
+        if (!isFontLoaded) return
+
+        setInputTextWidth(getTextWidth({ value: currentValue }))
+    }, [currentValue, isFontLoaded])
+
     return (
-        <div className="form-control w-full">
+        <div className="">
             <label className="label">
                 <span className="label-text">{props.label}</span>
             </label>
-            <input
-                value={currentValue}
-                type="text"
-                onChange={handleOnChange}
-                className="input input-bordered"
-                {...props}
-            />
+            <div className="form-control w-full relative">
+                <input
+                    value={currentValue}
+                    type="text"
+                    onChange={handleOnChange}
+                    className="input input-bordered"
+                    {...props}
+                />
+                {currentValue > 0 && isFontLoaded && (
+                    <div
+                        className="absolute top-1/2 px-4 transform -translate-y-1/2 pointer-events-none"
+                        style={{ left: `${inputTextWidth}px` }}
+                    >
+                        <p className="text-gray-400">{".000 TL"}</p>
+                    </div>
+                )}
+            </div>
         </div>
     )
 }
 
 const TaxForm = () => {
-    const [tax, setTax] = useState(0)
-    const methods = useForm({ defaultValues: { yearlyIncome: 420000 } })
-    const { register, handleSubmit } = methods
-
-    const taxDisplay = new Intl.NumberFormat("tr-TR", {
-        style: "currency",
-        currency: "TRY"
-    }).format(tax)
+    const methods = useForm({
+        defaultValues: { totalTax: 0, yearlyIncome: 420, yearlyExpense: 100, activeBracketIndex: 0 }
+    })
+    const { register, handleSubmit, setValue } = methods
 
     const calculateTax = (data) => {
         const brackets = TAX_BRACKETS[data.incomeType]
-        const { yearlyIncome } = data
-        let textBase = yearlyIncome
+        const { yearlyIncome, yearlyExpense } = data
+
+        const multipliedIncome = yearlyIncome * 1_000
+        const multipliedExpense = yearlyExpense * 1_000
+
+        let textBase = multipliedIncome - multipliedExpense
 
         if (data?.isYoungEntrepreneur) {
             textBase = textBase - 75_000
@@ -73,30 +75,33 @@ const TaxForm = () => {
         if (data.isSoftwareExport) {
             textBase = textBase / 2
         }
-        if (textBase < 0) return 0
+
+        if (textBase < 0) return [0, 0]
 
         let tax = 0
+        let activeBracketIndex = 0
+
         for (let i = 0; i < brackets.length; i++) {
             const bracket = brackets[i]
-            const { baseAmount, partialAmount, partialTax, rate } = bracket
+            const { baseAmount, partialAmount, partialTax, rate, type } = bracket
 
-            if (textBase <= baseAmount) {
+            if (type === "lower" ? textBase <= baseAmount : textBase > baseAmount) {
                 tax = (textBase - partialAmount) * rate + partialTax
+                activeBracketIndex = i
                 break
             }
         }
 
-        return tax
+        return [tax, activeBracketIndex]
     }
 
     const onSubmit = (data) => {
         if (data.yearlyIncome <= 0) return
 
-        const tax = calculateTax(data)
+        const [tax, activeBracketIndex] = calculateTax(data)
 
-        if (tax) {
-            setTax(tax)
-        }
+        setValue("totalTax", tax)
+        setValue("activeBracketIndex", activeBracketIndex)
     }
 
     return (
@@ -148,17 +153,19 @@ const TaxForm = () => {
                     </label>
                 </div>
 
-                <NumberInput
-                    id="yearlyIncome"
-                    placeholder="Yıllık kazanç"
-                    label="Yıllık kazancınız"
-                />
-                {tax ? (
-                    <div className="flex justify-between text-xl">
-                        <span>{"Toplam vergi miktarı:"}</span>
-                        <span>{taxDisplay}</span>
-                    </div>
-                ) : null}
+                <div className="grid grid-cols-2 gap-4">
+                    <MoneyInput
+                        id="yearlyIncome"
+                        placeholder="Yıllık gelir"
+                        label="Yıllık geliriniz"
+                    />
+                    <MoneyInput
+                        id="yearlyExpense"
+                        placeholder="Yıllık gider"
+                        label="Yıllık gideriniz"
+                    />
+                </div>
+                <TaxSummary />
                 <button className="btn btn-primary">Hesapla</button>
             </form>
         </FormProvider>
