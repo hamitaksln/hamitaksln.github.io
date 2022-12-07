@@ -1,7 +1,7 @@
-import { useLayoutEffect, useState } from "react"
+import { useState } from "react"
 import { FormProvider, useForm, useFormContext } from "react-hook-form"
-import { DIGIT_REGEX, TAX_BRACKETS } from "../constants"
-import { useFontFaceObserver } from "../hooks/useIsFontLoaded"
+import { NumericFormat } from "react-number-format"
+import { TAX_BRACKETS } from "../constants"
 import { getTextWidth } from "../utilities"
 import { Footer } from "./Footer"
 import { TaxSummary } from "./TaxSummary"
@@ -12,20 +12,10 @@ const MoneyInput = (props) => {
     const currentValue = watch(props.id)
     const [inputTextWidth, setInputTextWidth] = useState(0)
 
-    const isFontLoaded = useFontFaceObserver([{ family: "Inter" }])
-
     const handleOnChange = (e, i) => {
-        if (e.nativeEvent.data && !DIGIT_REGEX.test(e.nativeEvent.data)) return
-        if (e.target.value.length > 6) return
-
-        setValue(props.id, parseFloat(e.target.value) || 0, { valueAsNumber: true })
+        setValue(props.id, e.floatValue)
+        setInputTextWidth(getTextWidth({ value: e.formattedValue }))
     }
-
-    useLayoutEffect(() => {
-        if (!isFontLoaded) return
-
-        setInputTextWidth(getTextWidth({ value: currentValue }))
-    }, [currentValue, isFontLoaded])
 
     return (
         <div className="">
@@ -33,19 +23,22 @@ const MoneyInput = (props) => {
                 <span className="label-text">{props.label}</span>
             </label>
             <div className="form-control w-full relative">
-                <input
+                <NumericFormat
+                    prefix={"₺ "}
+                    thousandSeparator={"."}
+                    decimalSeparator={","}
                     value={currentValue}
+                    onValueChange={handleOnChange}
                     type="text"
-                    onChange={handleOnChange}
                     className="input input-bordered"
                     {...props}
                 />
-                {currentValue > 0 && isFontLoaded && (
+                {currentValue > 0 && (
                     <div
                         className="absolute top-1/2 px-4 transform -translate-y-1/2 pointer-events-none"
                         style={{ left: `${inputTextWidth}px` }}
                     >
-                        <p className="text-gray-400">{".000 TL"}</p>
+                        <p className="text-gray-300">{".000"}</p>
                     </div>
                 )}
             </div>
@@ -55,7 +48,7 @@ const MoneyInput = (props) => {
 
 const TaxForm = () => {
     const methods = useForm({
-        defaultValues: { totalTax: 0, yearlyIncome: 420, yearlyExpense: 100, activeBracketIndex: 0 }
+        defaultValues: { totalTax: 0, activeBracketIndex: 0 }
     })
     const { register, handleSubmit, setValue } = methods
 

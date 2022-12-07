@@ -23,6 +23,7 @@
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-hook-form": "^7.40.0",
+    "react-number-format": "^5.1.2",
     "use-font-face-observer": "^1.2.1"
   },
   "devDependencies": {
