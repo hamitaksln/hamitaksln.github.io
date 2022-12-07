@@ -21,9 +21,8 @@ const TaxBrackets = ({ brackets }) => {
 export const TaxSummary = ({}) => {
     const { watch } = useFormContext()
 
-    const totalTax = watch("totalTax")
-    const incomeType = watch("incomeType")
-    const activeBracketIndex = watch("activeBracketIndex")
+    const watchFields = watch(["totalTax", "incomeType", "activeBracketIndex"])
+    const [totalTax, incomeType, activeBracketIndex] = watchFields
 
     const taxDisplay = useMemo(
         () =>
@@ -43,7 +42,7 @@ export const TaxSummary = ({}) => {
         [incomeType, activeBracketIndex]
     )
 
-    if (!totalTax) return null
+    if (totalTax === null || totalTax === undefined) return null
 
     return (
         <div>

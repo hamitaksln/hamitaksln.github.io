@@ -30,7 +30,7 @@ const MoneyInput = (props) => {
                     value={currentValue}
                     onValueChange={handleOnChange}
                     type="text"
-                    className="input input-bordered"
+                    className="input input-bordered placeholder:text-gray-600"
                     {...props}
                 />
                 {currentValue > 0 && (
@@ -48,7 +48,7 @@ const MoneyInput = (props) => {
 
 const TaxForm = () => {
     const methods = useForm({
-        defaultValues: { totalTax: 0, activeBracketIndex: 0 }
+        defaultValues: { activeBracketIndex: 0 }
     })
     const { register, handleSubmit, setValue } = methods
 
@@ -56,8 +56,10 @@ const TaxForm = () => {
         const brackets = TAX_BRACKETS[data.incomeType]
         const { yearlyIncome, yearlyExpense } = data
 
-        const multipliedIncome = yearlyIncome * 1_000
-        const multipliedExpense = yearlyExpense * 1_000
+        if (yearlyIncome === undefined) return
+
+        const multipliedIncome = (yearlyIncome || 0) * 1_000
+        const multipliedExpense = (yearlyExpense || 0) * 1_000
 
         let textBase = multipliedIncome - multipliedExpense
 
