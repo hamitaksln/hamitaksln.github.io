@@ -149,12 +149,12 @@ const TaxForm = () => {
                 <div className="grid grid-cols-2 gap-4">
                     <MoneyInput
                         id="yearlyIncome"
-                        placeholder="Yıllık gelir"
+                        placeholder="₺ 200.000"
                         label="Yıllık geliriniz"
                     />
                     <MoneyInput
                         id="yearlyExpense"
-                        placeholder="Yıllık gider"
+                        placeholder="₺ 100.000"
                         label="Yıllık gideriniz"
                     />
                 </div>
