@@ -3,7 +3,10 @@
 
 Turkey tax calculator is a simple and easy-to-use app for calculating taxes in Turkey. The app features an intuitive user interface and step-by-step instructions. It is suitable for individuals. Get started today and take the stress out of tax season!
 
+
 <img src="./assets/preview.png" />
+
+[Try it now](https://hamitaksln.github.io/tax-calculator/)
 
 ## Development
 
