@@ -25,6 +25,7 @@ const MoneyInput = (props) => {
             <div className="form-control w-full relative">
                 <NumericFormat
                     prefix={"₺ "}
+                    allowNegative={false}
                     thousandSeparator={"."}
                     decimalSeparator={","}
                     value={currentValue}
@@ -171,9 +172,9 @@ export default function TaxCalculator() {
     return (
         <div className="container flex min-h-screen min-w-full flex-col mx-auto">
             <div className="fixed flex h-full w-full flex-col justify-between items-center">
-                <div className="hero mt-6">
+                <div className="hero mt-0 sm:mt-6">
                     <div className="hero-content text-center">
-                        <div className="max-w-md space-y-16">
+                        <div className="max-w-md space-y-4 sm:space-y-16">
                             <h1 className="text-5xl font-bold">Gelir Vergisi Hesaplama</h1>
                             <TaxForm />
                         </div>

@@ -19,3 +19,12 @@ export const getTextWidth = ({ fontSize = "16px", value }) => {
     div.remove()
     return width
 }
+
+export const getTRYFormat = (value) => {
+    return new Intl.NumberFormat("tr-TR", {
+        style: "currency",
+        currency: "TRY",
+        maximumFractionDigits: 0,
+        minimumFractionDigits: 0
+    }).format(value)
+}
