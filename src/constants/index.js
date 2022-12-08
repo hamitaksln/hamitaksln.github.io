@@ -5,52 +5,64 @@ export const INCOME_TYPES = {
 
 export const TAX_BRACKETS = {
     [INCOME_TYPES.wage]: [
-        { baseAmount: 32_000, type: "lower", partialAmount: 0, partialTax: 0, rate: 0.15 },
-        { baseAmount: 70_000, type: "lower", partialAmount: 32_000, partialTax: 4_800, rate: 0.2 },
+        { baseAmount: 71_337, type: "lower", partialAmount: 0, partialTax: 0, rate: 0.15 },
         {
-            baseAmount: 250_000,
+            baseAmount: 156_000,
             type: "lower",
-            partialAmount: 70_000,
-            partialTax: 12_400,
+            partialAmount: 71_337,
+            partialTax: 10_650,
+            rate: 0.2
+        },
+        {
+            baseAmount: 378_000,
+            type: "lower",
+            partialAmount: 156_000,
+            partialTax: 27_650,
             rate: 0.27
         },
         {
-            baseAmount: 880_000,
+            baseAmount: 1_961_000,
             type: "lower",
-            partialAmount: 250_000,
-            partialTax: 61_000,
+            partialAmount: 378_000,
+            partialTax: 87_590,
             rate: 0.35
         },
         {
-            baseAmount: 880_000,
+            baseAmount: 1_961_000,
             type: "upper",
-            partialAmount: 880_000,
-            partialTax: 281_500,
+            partialAmount: 1_961_000,
+            partialTax: 641_640,
             rate: 0.4
         }
     ],
     [INCOME_TYPES.noneWage]: [
-        { baseAmount: 32_000, type: "lower", partialAmount: 0, partialTax: 0, rate: 0.15 },
-        { baseAmount: 70_000, type: "lower", partialAmount: 32_000, partialTax: 4_800, rate: 0.2 },
+        { baseAmount: 71_337, type: "lower", partialAmount: 0, partialTax: 0, rate: 0.15 },
         {
-            baseAmount: 170_000,
+            baseAmount: 156_000,
             type: "lower",
-            partialAmount: 70_000,
-            partialTax: 12_400,
+            partialAmount: 71_337,
+            partialTax: 10_650,
+            rate: 0.2
+        },
+        {
+            baseAmount: 378_000,
+            type: "lower",
+            partialAmount: 156_000,
+            partialTax: 27_650,
             rate: 0.27
         },
         {
-            baseAmount: 880_000,
+            baseAmount: 1_961_000,
             type: "lower",
-            partialAmount: 170_000,
-            partialTax: 39_400,
+            partialAmount: 378_000,
+            partialTax: 87_590,
             rate: 0.35
         },
         {
-            baseAmount: 880_000,
+            baseAmount: 1_961_000,
             type: "upper",
-            partialAmount: 880_000,
-            partialTax: 287_900,
+            partialAmount: 1_961_000,
+            partialTax: 641_640,
             rate: 0.4
         }
     ]
