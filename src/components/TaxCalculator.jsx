@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { FormProvider, useForm, useFormContext } from "react-hook-form"
 import { NumericFormat } from "react-number-format"
-import { TAX_BRACKETS } from "../constants"
+import { INCOME_TYPES, TAX_BRACKETS } from "../constants"
 import { getTextWidth } from "../utilities"
 import { Footer } from "./Footer"
 import { TaxSummary } from "./TaxSummary"
@@ -49,15 +49,23 @@ const MoneyInput = (props) => {
 
 const TaxForm = () => {
     const methods = useForm({
-        defaultValues: { activeBracketIndex: 0 }
+        defaultValues: {
+            incomeType: INCOME_TYPES.wage,
+            activeBracketIndex: 0,
+            totalTax: 0,
+            totalProfit: 0,
+            profitTaxRate: 0
+        }
     })
     const { register, handleSubmit, setValue } = methods
 
     const calculateTax = (data) => {
         const brackets = TAX_BRACKETS[data.incomeType]
-        const { yearlyIncome, yearlyExpense } = data
+        let { yearlyIncome, yearlyExpense } = data
 
-        if (yearlyIncome === undefined) return
+        if (yearlyIncome === undefined) {
+            yearlyIncome = 0
+        }
 
         const multipliedIncome = (yearlyIncome || 0) * 1_000
         const multipliedExpense = (yearlyExpense || 0) * 1_000
@@ -72,7 +80,7 @@ const TaxForm = () => {
             textBase = textBase * 0.2
         }
 
-        if (textBase < 0) return [0, 0]
+        if (textBase < 0) return [0, 0, 0, 0]
 
         let tax = 0
         let activeBracketIndex = 0
@@ -88,16 +96,19 @@ const TaxForm = () => {
             }
         }
 
-        return [tax, activeBracketIndex]
+        const totalProfit = (yearlyIncome || 0) - (yearlyExpense || 0)
+        const profitTaxRate = (tax / (totalProfit * 1000)) * 100 || 0
+
+        return [tax, activeBracketIndex, totalProfit, profitTaxRate]
     }
 
     const onSubmit = (data) => {
-        if (data.yearlyIncome <= 0) return
-
-        const [tax, activeBracketIndex] = calculateTax(data)
+        const [tax, activeBracketIndex, totalProfit, profitTaxRate] = calculateTax(data)
 
         setValue("totalTax", tax)
         setValue("activeBracketIndex", activeBracketIndex)
+        setValue("totalProfit", totalProfit)
+        setValue("profitTaxRate", profitTaxRate)
     }
 
     return (
@@ -129,7 +140,7 @@ const TaxForm = () => {
                 <div>
                     <label className="label cursor-pointer">
                         <span className="label-text">
-                            {"Yurtdışı yazılım/tasarım ihracatı %80 kazanç istisnası"}
+                            {`Yurtdışı yazılım/tasarım ihracatı`} <b>%80</b> {`kazanç istisnası`}
                         </span>
                         <input
                             type="checkbox"

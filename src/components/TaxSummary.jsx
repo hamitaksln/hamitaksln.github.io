@@ -52,10 +52,13 @@ const TaxBrackets = ({ brackets }) => {
 export const TaxSummary = ({}) => {
     const { watch } = useFormContext()
 
-    const watchFields = watch(["totalTax", "incomeType", "activeBracketIndex"])
-    const [totalTax, incomeType, activeBracketIndex] = watchFields
-
-    const taxDisplay = useMemo(() => getTRYFormat(totalTax), [totalTax])
+    const [totalTax, incomeType, activeBracketIndex, totalProfit, profitTaxRate] = watch([
+        "totalTax",
+        "incomeType",
+        "activeBracketIndex",
+        "totalProfit",
+        "profitTaxRate"
+    ])
 
     const brackets = useMemo(
         () =>
@@ -66,14 +69,22 @@ export const TaxSummary = ({}) => {
         [incomeType, activeBracketIndex]
     )
 
-    if (totalTax === null || totalTax === undefined) return null
-
     return (
         <div className="space-y-6">
             <div className="divider"></div>
-            <div className="flex justify-between items-center ">
-                <span>{"Toplam vergi miktarı:"}</span>
-                <span className="text-xl">{taxDisplay}</span>
+            <div>
+                <div className="flex justify-between items-center ">
+                    <span>{"Toplam ödenecek vergi miktarı:"}</span>
+                    <span className="text-xl font-semibold">{getTRYFormat(totalTax)}</span>
+                </div>
+                <div className="flex justify-between items-center ">
+                    <span>{"Toplam kar miktarı:"}</span>
+                    <span className="">{getTRYFormat(totalProfit * 1000)}</span>
+                </div>
+                <div className="flex justify-between items-center ">
+                    <span>{"Toplam kar/vergi oranı:"}</span>
+                    <span className="">{profitTaxRate?.toFixed(2)}%</span>
+                </div>
             </div>
             <TaxBrackets brackets={brackets} />
         </div>
