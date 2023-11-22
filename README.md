@@ -1,7 +1,7 @@
-# Turkey Tax Calculator
+# 2023 Gelir Vergisi Hesaplama
 <img src="./assets/logo2.png" />
 
-Turkey tax calculator is a simple and easy-to-use app for calculating taxes in Turkey. The app features an intuitive user interface and step-by-step instructions. It is suitable for individuals. Get started today and take the stress out of tax season!
+2023 yılında gelir vergisini hesaplamanın en hızlı yolu.
 
 
 <img src="./assets/preview.png" />
