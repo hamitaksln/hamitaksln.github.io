@@ -170,8 +170,8 @@ const TaxForm = () => {
 
 export default function TaxCalculator() {
     return (
-        <div className="container flex min-h-screen min-w-full flex-col mx-auto">
-            <div className="fixed flex h-full w-full flex-col justify-between items-center">
+        <div className="container flex min-h-screen h-full min-w-full flex-col mx-auto">
+            <div className="flex-1 flex h-full w-full flex-col justify-between items-center">
                 <div className="hero mt-0 sm:mt-6">
                     <div className="hero-content text-center">
                         <div className="max-w-md space-y-4 sm:space-y-16">
