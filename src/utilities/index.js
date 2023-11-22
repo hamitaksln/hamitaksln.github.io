@@ -1,3 +1,6 @@
+import clsx from "clsx"
+import { twMerge } from "tailwind-merge"
+
 /* 
 Credit: anner burton
 https://stackoverflow.com/a/61088413/10873418
@@ -27,4 +30,8 @@ export const getTRYFormat = (value) => {
         maximumFractionDigits: 0,
         minimumFractionDigits: 0
     }).format(value)
+}
+
+export function cn(...classes) {
+    return twMerge(clsx(...classes))
 }

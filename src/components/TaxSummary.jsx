@@ -1,8 +1,7 @@
-import { clsx } from "@mantine/core"
 import { useMemo } from "react"
 import { useFormContext } from "react-hook-form"
 import { TAX_BRACKETS } from "../constants"
-import { getTRYFormat } from "../utilities"
+import { cn, getTRYFormat } from "../utilities"
 
 const TaxBracket = ({ bracket }) => {
     const formatTaxBracket = (bracket) => {
@@ -25,7 +24,7 @@ const TaxBracket = ({ bracket }) => {
 
     return (
         <div
-            className={clsx(
+            className={cn(
                 { "bg-base-content/10 text-gray-300 font-semibold rounded": bracket?.selected },
                 "text-xs sm:text-sm flex justify-between px-1"
             )}
