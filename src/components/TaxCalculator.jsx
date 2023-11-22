@@ -69,7 +69,7 @@ const TaxForm = () => {
         }
 
         if (data.isSoftwareExport) {
-            textBase = textBase / 2
+            textBase = textBase * 0.2
         }
 
         if (textBase < 0) return [0, 0]
@@ -129,7 +129,7 @@ const TaxForm = () => {
                 <div>
                     <label className="label cursor-pointer">
                         <span className="label-text">
-                            {"Yurtdışı yazılım ihracatı %50 kazanç istisnası"}
+                            {"Yurtdışı yazılım/tasarım ihracatı %80 kazanç istisnası"}
                         </span>
                         <input
                             type="checkbox"
