@@ -11,6 +11,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/partytown": "^2.0.2",
     "@astrojs/react": "^3.0.6",
     "@astrojs/tailwind": "^5.0.2",
     "@emotion/react": "^11.10.5",
@@ -18,6 +19,7 @@
     "@types/react": "^18.0.10",
     "@types/react-dom": "^18.0.5",
     "astro": "^3.5.7",
+    "astro-analytics": "^2.7.0",
     "clsx": "^2.0.0",
     "daisyui": "^4.4.2",
     "react": "^18.1.0",
