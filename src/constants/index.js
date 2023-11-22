@@ -68,4 +68,6 @@ export const TAX_BRACKETS = {
     ]
 }
 
+export const YOUNG_ENTREPRENEUR_DISCOUNT = 150_000
+
 export const DIGIT_REGEX = /^[\d]+$/

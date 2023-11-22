@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { FormProvider, useForm, useFormContext } from "react-hook-form"
 import { NumericFormat } from "react-number-format"
-import { INCOME_TYPES, TAX_BRACKETS } from "../constants"
+import { INCOME_TYPES, TAX_BRACKETS, YOUNG_ENTREPRENEUR_DISCOUNT } from "../constants"
 import { getTextWidth } from "../utilities"
 import { Footer } from "./Footer"
 import { TaxSummary } from "./TaxSummary"
@@ -73,7 +73,7 @@ const TaxForm = () => {
         let textBase = multipliedIncome - multipliedExpense
 
         if (data?.isYoungEntrepreneur) {
-            textBase = textBase - 75_000
+            textBase = textBase - YOUNG_ENTREPRENEUR_DISCOUNT
         }
 
         if (data.isSoftwareExport) {
