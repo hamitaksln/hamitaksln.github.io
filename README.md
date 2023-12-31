@@ -1,7 +1,7 @@
-# 2023 Gelir Vergisi Hesaplama
+# 2024 Gelir Vergisi Hesaplama
 <img src="./assets/logo2.png" />
 
-2023 yılında gelir vergisini hesaplamanın en hızlı yolu.
+2024 yılında gelir vergisini hesaplamanın en hızlı yolu.
 
 
 <img src="./assets/preview.png" />
