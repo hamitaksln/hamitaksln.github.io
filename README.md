@@ -4,7 +4,7 @@
 2024 yılında gelir vergisini hesaplamanın en hızlı yolu.
 
 
-<img src="./assets/preview.png" />
+<img src="./assets/preview_2024.png" />
 
 [Try it now](https://hamitaksln.github.io/tax-calculator/)
 
