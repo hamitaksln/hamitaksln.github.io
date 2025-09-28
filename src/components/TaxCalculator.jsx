@@ -185,9 +185,9 @@ export default function TaxCalculator() {
             <div className="flex-1 flex h-full w-full flex-col justify-between items-center">
                 <div className="hero mt-0 sm:mt-6">
                     <div className="hero-content text-center">
-                        <div className="max-w-md space-y-4 sm:space-y-16">
+                        <div className="max-w-md space-y-4 sm:space-y-12">
                             <h1 className="sm:text-5xl text-2xl font-bold">
-                                2024 Gelir Vergisi Hesaplama
+                                2025 Gelir Vergisi Hesaplama
                             </h1>
                             <TaxForm />
                         </div>
